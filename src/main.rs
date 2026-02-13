@@ -44,7 +44,6 @@ enum VisItemChild{
 
 struct CstVisItem{
   //visibility: Option<CstVisibility>
-  
 }
 
 struct CstFunction{
@@ -70,7 +69,9 @@ struct CstBlockExpression{
 }
 
 impl CstBlockExpression{
-
+  fn Print(&self){
+    println!("Block Expression");
+  }
 }
 
 impl Parser{
@@ -82,11 +83,11 @@ impl Parser{
   fn ParseBlockExpression(&mut self) -> Option<CstBlockExpression>{
     // for now just matches the braces
     match self.tokens[self.position]{
-      LexerTokens::LeftCurlyBrace => self.position = self.position+1
+      LexerTokens::LeftCurlyBrace => self.position = self.position+1,
       _ => panic!("damn bro")
     };
     match self.tokens[self.position]{
-      LexerTokens::LeftCurlyBrace => self.position = self.position+1
+      LexerTokens::RightCurlyBrace => self.position = self.position+1,
       _ => panic!("damn bro")
     };
     return Some(CstBlockExpression{});
@@ -128,5 +129,15 @@ fn main() {
     LexerTokens::LeftCurlyBrace,
     LexerTokens::RightCurlyBrace
   ];
+
+  let mut parser = Parser{
+    position: 0,
+    tokens: sampleTokens
+  };
+
+  let blockCst = parser.ParseBlockExpression();
+  match blockCst{
+    None => {},
+    Some(node) => node.Print()
+  };
 }
-      
