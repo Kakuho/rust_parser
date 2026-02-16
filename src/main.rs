@@ -1,51 +1,8 @@
-mod cst;
+mod concrete;
+mod lexer;
 
 struct Program{
   buffer: String
-}
-
-struct Lexer{
-  position: usize
-}
-
-enum LexerTokens{
-  Char(char),
-  // keywords, could be stored in a  hashmap instead 
-  Fn,
-  Const,
-  Async,
-  Safe,
-  Unsafe,
-  Extern,
-  Abi(String),
-  LeftCurlyBrace,
-  RightCurlyBrace
-}
-
-struct Parser{
-  position: usize,
-  tokens: Vec<LexerTokens>
-}
-
-impl Parser{
-  fn Parse(self) -> i8{
-    // move the lexer into this function call and kill it self
-    2
-  }
-
-  fn ParseBlockExpression(&mut self) -> Option<cst::BlockExpression>{
-    // for now just matches the braces
-    match self.tokens[self.position]{
-      LexerTokens::LeftCurlyBrace => self.position = self.position+1,
-      _ => panic!("damn bro")
-    };
-    match self.tokens[self.position]{
-      LexerTokens::RightCurlyBrace => self.position = self.position+1,
-      _ => panic!("damn bro")
-    };
-    return Some(CstBlockExpression{});
-  }
- 
 }
 
 // for now generate a concrete syntax tree of a simple program:
@@ -78,19 +35,20 @@ fn main(){
     ")
   };
 
-  let sampleTokens: Vec<LexerTokens> = vec![
-    LexerTokens::LeftCurlyBrace,
-    LexerTokens::RightCurlyBrace
+  let sampleTokens: Vec<lexer::LexerToken> = vec![
+    lexer::LexerToken::LeftCurlyBrace,
+    lexer::LexerToken::RightCurlyBrace
   ];
 
-  let mut parser = Parser{
-    position: 0,
-    tokens: sampleTokens
-  };
+  let mut parser = concrete::Parser::create(sampleTokens);
 
-  let blockCst = parser.ParseBlockExpression();
+  let blockCst: Option<concrete::cst::CstBlockExpression> = parser.parse_block_expression();
   match blockCst{
     None => {},
-    Some(node) => node.Print()
+    Some(node) =>{
+      let block: concrete::cst::CstBlockExpression = node;
+      block.Print();
+    }
   };
+  println!("~Mero mero");
 }

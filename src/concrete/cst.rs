@@ -1,11 +1,13 @@
 // Supporting Code for implementing the concrete syntax tree
 
+pub mod cst_submod;
+
 pub struct CstCrate{
   item_node: CstItem
 }
 
 pub struct CstItem{
-  
+
 }
 
 enum VisItemChild{
@@ -38,11 +40,12 @@ pub struct CstFunctionQualifier{
 
 pub struct CstBlockExpression{
   // not parsing attributes for now, later will add attribute parsing
-  //statements: Option<CstStatements>
+  // statements: Option<CstStatements>
 }
 
 impl CstBlockExpression{
-  fn Print(&self){
+  pub fn Print(&self){
     println!("Block Expression");
   }
 }
+
