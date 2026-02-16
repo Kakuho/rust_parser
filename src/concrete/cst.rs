@@ -46,6 +46,37 @@ impl CstFunction{
   }
 
   pub fn Print(&self){
+    println!("Function");
+
+    println!("Qualifiers:");
+    match &self.qualifier{
+      Some(qualifiers) => {
+        if(qualifiers.is_const){
+          println!("Const");
+        }
+
+        if(qualifiers.is_async){
+          println!("Async");
+        }
+
+        if(qualifiers.is_unsafe){
+          println!("Unsafe");
+        }
+        else{
+          println!("Safe");
+        }
+      }
+      None => {}
+    }
+    
+    println!("Identifier: {}", self.identifier);
+
+    match &self.block_expression{
+      Some(blocknode) => {
+        blocknode.Print();
+      }
+      None => {}
+    }
   }
 }
 

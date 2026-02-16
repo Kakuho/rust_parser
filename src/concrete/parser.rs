@@ -34,12 +34,13 @@ impl Parser{
 
     let ref ident_token = self.tokens[self.position];
 
-    match ident_token{
+    let identifier: String = match ident_token{
       lex::LexerToken::Identifier(ident) => {
         self.position += 1;
+        String::clone(ident)
       },
       _ => panic!("Failed to parse function")
-    }
+    };
 
     // skip the generic parameters for now
 
@@ -65,14 +66,12 @@ impl Parser{
 
     let block_expression = self.parse_block_expression();    
 
-    return Some(cst::CstFunction::Create(
-        qualifier: qualifiers,
-        identifier: ident_token.String,
-        block_expression: block_expression
-      );
+    return Some(
+      cst::CstFunction::Create(qualifiers, identifier, block_expression)
     )
+  }
 
-  fn parse_function_qualifiers(&mut self) -> cst::CstFunctionQualifier{
+  fn parse_function_qualifiers(&mut self) -> Option<cst::CstFunctionQualifier>{
     // doesn't handle extern yet
     let is_const = match self.tokens[self.position]{
       lex::LexerToken::Const => {
@@ -81,7 +80,6 @@ impl Parser{
       },
       _ => false
     };
-
 
     let is_async = match self.tokens[self.position]{
       lex::LexerToken::Async => {
@@ -111,12 +109,14 @@ impl Parser{
       }
     }
 
-    return cst::CstFunctionQualifier{
-      is_const: is_const,
-      is_async: is_async,
-      is_safe: is_safe,
-      is_unsafe: is_unsafe
-    }
+    return Some(
+      cst::CstFunctionQualifier{
+        is_const: is_const,
+        is_async: is_async,
+        is_safe: is_safe,
+        is_unsafe: is_unsafe
+      }
+    )
   }
 
   pub fn parse_block_expression(&mut self) -> Option<cst::CstBlockExpression>{

@@ -28,6 +28,25 @@ struct Program{
 //             Statements - null
 //
 
+fn ParseMainFunction(){
+  let main_func_tokens: Vec<lex::LexerToken> = vec![
+    lex::LexerToken::Fn,
+    lex::LexerToken::Identifier(String::from("main")),
+    lex::LexerToken::LeftRoundBrace,
+    lex::LexerToken::RightRoundBrace,
+    lex::LexerToken::LeftCurlyBrace,
+    lex::LexerToken::RightCurlyBrace
+  ];
+
+  let mut parser = concrete::Parser::create(main_func_tokens);
+
+  let function_cst: Option<concrete::cst::CstBlockExpression> = parser.parse_block_expression();
+  match function_cst{
+    None => {},
+    Some(node) => {node.Print()}
+  };
+}
+
 fn main(){
   let program = Program{
     buffer: String::from("
@@ -47,5 +66,6 @@ fn main(){
     None => {},
     Some(node) => {node.Print()}
   };
+  
   println!("~Mero mero");
 }
