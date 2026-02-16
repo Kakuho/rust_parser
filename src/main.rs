@@ -28,6 +28,10 @@ struct Program{
 //             Statements - null
 //
 
+async const fn yaya(){
+
+}
+
 fn main(){
   let program = Program{
     buffer: String::from("

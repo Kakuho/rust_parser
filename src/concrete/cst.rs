@@ -30,10 +30,10 @@ pub struct CstFunction{
 }
 
 pub struct CstFunctionQualifier{
-  is_const: bool,
-  is_async: bool,
-  is_safe: bool,
-  is_unsafe: bool
+  pub is_const: bool,
+  pub is_async: bool,
+  pub is_safe: bool,
+  pub is_unsafe: bool
 }
 
 pub struct CstBlockExpression{
