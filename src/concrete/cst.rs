@@ -39,9 +39,9 @@ pub struct CstFunctionQualifier{
 impl CstFunction{
   pub fn Create(qualifier: Option<CstFunctionQualifier>, identifier: String, block_expression: Option<CstBlockExpression>) -> CstFunction{
     CstFunction{
-      qualifier: qualifier.or(None),
+      qualifier: qualifier,
       identifier: identifier,
-      block_expression: block_expression.or(panic!("unknown block expression"))
+      block_expression: block_expression
     }
   }
 

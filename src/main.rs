@@ -40,7 +40,7 @@ fn ParseMainFunction(){
 
   let mut parser = concrete::Parser::create(main_func_tokens);
 
-  let function_cst: Option<concrete::cst::CstBlockExpression> = parser.parse_block_expression();
+  let function_cst = parser.parse_function();
   match function_cst{
     None => {},
     Some(node) => {node.Print()}
@@ -68,5 +68,6 @@ fn main(){
       fn main(){}
     ")
   };
+  ParseMainFunction();
   println!("~Mero mero");
 }
