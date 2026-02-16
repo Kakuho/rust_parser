@@ -92,3 +92,32 @@ impl CstBlockExpression{
   }
 }
 
+// Statement Parsing
+
+pub struct CstLetStatement{
+  // handle outer attributes later
+  // handle PatternNoTopAlt later
+  let_type: Option<String>                // type is a string, semantic analsyer phase can handle validity of types
+  expression: Option<CstExpression> 
+}
+
+enum ExpressionKind{
+  LiteralExpression,
+  
+}
+
+pub struct CstExpression{
+  // this maps to expression_without_block
+  kind: ExpressionKind
+}
+
+enum LiteralExpressionVal{
+  Char(char),
+  String(String),
+  Integral(isize),
+  Float(f64)
+}
+
+pub struct CstLiteralExpression{
+  literal: LiteralExpressionVal
+}
