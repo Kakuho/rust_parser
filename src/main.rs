@@ -1,5 +1,5 @@
 mod concrete;
-mod lexer;
+mod lex;
 
 struct Program{
   buffer: String
@@ -35,20 +35,17 @@ fn main(){
     ")
   };
 
-  let sampleTokens: Vec<lexer::LexerToken> = vec![
-    lexer::LexerToken::LeftCurlyBrace,
-    lexer::LexerToken::RightCurlyBrace
+  let sample_tokens: Vec<lex::LexerToken> = vec![
+    lex::LexerToken::LeftCurlyBrace,
+    lex::LexerToken::RightCurlyBrace
   ];
 
-  let mut parser = concrete::Parser::create(sampleTokens);
+  let mut parser = concrete::Parser::create(sample_tokens);
 
   let blockCst: Option<concrete::cst::CstBlockExpression> = parser.parse_block_expression();
   match blockCst{
     None => {},
-    Some(node) =>{
-      let block: concrete::cst::CstBlockExpression = node;
-      block.Print();
-    }
+    Some(node) => {node.Print()}
   };
   println!("~Mero mero");
 }

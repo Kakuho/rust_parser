@@ -1,7 +1,5 @@
 // Supporting Code for implementing the concrete syntax tree
 
-pub mod cst_submod;
-
 pub struct CstCrate{
   item_node: CstItem
 }

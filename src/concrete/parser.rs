@@ -1,14 +1,14 @@
-use crate::lexer;
+use crate::lex;
 use super::cst;
 
 pub struct Parser{
   position: usize,
-  tokens: Vec<lexer::LexerToken>
+  tokens: Vec<lex::LexerToken>
 }
 
 impl Parser{
 
-  pub fn create(srctokens: Vec<lexer::LexerToken>) -> Parser{
+  pub fn create(srctokens: Vec<lex::LexerToken>) -> Parser{
     Parser{
       position: 0,
       tokens: srctokens
@@ -23,11 +23,11 @@ impl Parser{
   pub fn parse_block_expression(&mut self) -> Option<cst::CstBlockExpression>{
     // for now just matches the braces
     match self.tokens[self.position]{
-      lexer::LexerToken::LeftCurlyBrace => self.position = self.position+1,
+      lex::LexerToken::LeftCurlyBrace => self.position = self.position+1,
       _ => panic!("damn bro")
     };
     match self.tokens[self.position]{
-      lexer::LexerToken::RightCurlyBrace => self.position = self.position+1,
+      lex::LexerToken::RightCurlyBrace => self.position = self.position+1,
       _ => panic!("damn bro")
     };
     return Some(cst::CstBlockExpression{});
