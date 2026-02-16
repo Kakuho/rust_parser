@@ -26,7 +26,7 @@ pub struct CstFunction{
   //function_params: Option<CstFunctionParams> 
   //function_return_type: Option<CstFunctionReturnType> 
   //where_clause: Option<CstWhereClause> 
-  block_expression: CstBlockExpression
+  block_expression: Option<CstBlockExpression>
 }
 
 pub struct CstFunctionQualifier{
@@ -36,10 +36,24 @@ pub struct CstFunctionQualifier{
   pub is_unsafe: bool
 }
 
+impl CstFunction{
+  pub fn Create(qualifier: Option<CstFunctionQualifier>, identifier: String, block_expression: Option<CstBlockExpression>) -> CstFunction{
+    CstFunction{
+      qualifier: qualifier.or(None),
+      identifier: identifier,
+      block_expression: block_expression.or(panic!("unknown block expression"))
+    }
+  }
+
+  pub fn Print(&self){
+  }
+}
+
 pub struct CstBlockExpression{
   // not parsing attributes for now, later will add attribute parsing
   // statements: Option<CstStatements>
 }
+
 
 impl CstBlockExpression{
   pub fn Print(&self){

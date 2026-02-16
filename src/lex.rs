@@ -13,5 +13,8 @@ pub enum LexerToken{
   Extern,
   Abi(String),
   LeftCurlyBrace,
-  RightCurlyBrace
+  RightCurlyBrace,
+  LeftRoundBrace,
+  RightRoundBrace,
+  Identifier(String)
 }

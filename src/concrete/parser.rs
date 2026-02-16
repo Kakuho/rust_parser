@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use crate::{concrete::cst::CstFunctionQualifier, lex};
 use super::cst;
 
@@ -21,19 +23,54 @@ impl Parser{
   }
 
   pub fn parse_function(&mut self) -> Option<cst::CstFunction>{
-    // for now just matches the braces
+    let qualifiers = self.parse_function_qualifiers();
+
     match self.tokens[self.position]{
-      lex::LexerToken::LeftCurlyBrace => self.position = self.position+1,
-      _ => panic!("damn bro")
-    };
+      lex::LexerToken::Fn => {
+        self.position += 1;
+      },
+      _ => panic!("Failed to parse function")
+    }
+
+    let ref ident_token = self.tokens[self.position];
+
+    match ident_token{
+      lex::LexerToken::Identifier(ident) => {
+        self.position += 1;
+      },
+      _ => panic!("Failed to parse function")
+    }
+
+    // skip the generic parameters for now
+
     match self.tokens[self.position]{
-      lex::LexerToken::RightCurlyBrace => self.position = self.position+1,
-      _ => panic!("damn bro")
+      lex::LexerToken::LeftRoundBrace => {
+        self.position += 1;
+      },
+      _ => panic!("Failed to parse function")
+    }
+
+    // skip matching function parameters for now
+
+    match self.tokens[self.position]{
+      lex::LexerToken::RightRoundBrace => {
+        self.position += 1;
+      },
+      _ => panic!("Failed to parse function")
+    }
+
+    // skip matching return type
     
-    };
-    panic!("CANNOT PARSE FUNCTIONS YET")
-    return None;
-  }
+    // skip matching where clause
+
+    let block_expression = self.parse_block_expression();    
+
+    return Some(cst::CstFunction::Create(
+        qualifier: qualifiers,
+        identifier: ident_token.String,
+        block_expression: block_expression
+      );
+    )
 
   fn parse_function_qualifiers(&mut self) -> cst::CstFunctionQualifier{
     // doesn't handle extern yet
@@ -43,7 +80,8 @@ impl Parser{
         true
       },
       _ => false
-    }
+    };
+
 
     let is_async = match self.tokens[self.position]{
       lex::LexerToken::Async => {
@@ -51,7 +89,7 @@ impl Parser{
         true
       },
       _ => false
-    }
+    };
   
     let is_unsafe: bool;
     let is_safe: bool;
