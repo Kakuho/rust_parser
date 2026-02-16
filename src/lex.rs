@@ -11,6 +11,7 @@ pub enum LexerToken{
   Safe,
   Unsafe,
   Extern,
+  Let,
   Abi(String),
   LeftCurlyBrace,
   RightCurlyBrace,
