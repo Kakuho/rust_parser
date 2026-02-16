@@ -47,13 +47,7 @@ fn ParseMainFunction(){
   };
 }
 
-fn main(){
-  let program = Program{
-    buffer: String::from("
-      fn main(){}
-    ")
-  };
-
+fn ParseBlockExpression(){
   let sample_tokens: Vec<lex::LexerToken> = vec![
     lex::LexerToken::LeftCurlyBrace,
     lex::LexerToken::RightCurlyBrace
@@ -66,6 +60,13 @@ fn main(){
     None => {},
     Some(node) => {node.Print()}
   };
-  
+}
+
+fn main(){
+  let program = Program{
+    buffer: String::from("
+      fn main(){}
+    ")
+  };
   println!("~Mero mero");
 }
