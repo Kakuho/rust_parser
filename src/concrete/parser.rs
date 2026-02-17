@@ -125,11 +125,34 @@ impl Parser{
       lex::LexerToken::LeftCurlyBrace => self.position = self.position+1,
       _ => panic!("damn bro")
     };
+    
     match self.tokens[self.position]{
       lex::LexerToken::RightCurlyBrace => self.position = self.position+1,
       _ => panic!("damn bro")
     };
     return Some(cst::CstBlockExpression{});
   }
- 
+
+  pub fn parse_expression(&mut self) -> Option<cst::CstExpression>{
+    let lexp = self.try_parse_literal_expression();
+    match lexp {
+      None => {}
+      Some(litexp) => {
+        return Some(
+          cst::CstExpression{
+            kind: cst::ExpressionKind::LiteralExpression(litexp)
+          }
+        );
+      }
+    }
+    return None;
+  }
+
+  fn try_parse_literal_expression(&mut self) -> Option<cst::CstLiteralExpression>{
+    match &self.tokens[self.position]{
+      lex::LexerToken::LeftCurlyBrace => self.position = self.position+1,
+      _ => panic!("damn bro")
+    };
+    return None;
+  }
 }
