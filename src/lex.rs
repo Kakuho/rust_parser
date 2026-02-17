@@ -14,8 +14,10 @@ pub enum LexerToken{
   Let,
   Abi(String),
   // literals
-  Integer(i32),
   Character(char),
+  String(String),
+  Integral(i32),
+  Float(f64),
   // symbols
   SingleQuote,
   DoubleQuote,
