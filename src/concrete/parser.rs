@@ -181,12 +181,15 @@ impl Parser{
 
   fn try_parse_char_literal(&mut self) -> Option<cst::CstLiteralExpression>{
     match self.tokens[self.position]{
-      lex::LexerToken::SingleQuote => self.position = self.position+1,
+      lex::LexerToken::SingleQuote => self.position += 1,
       _ => {return None;}
     };
 
     let char_val =  match self.tokens[self.position]{
-      lex::LexerToken::Character(charval) => charval,
+      lex::LexerToken::Character(charval) => {
+        self.position += 1;
+        charval
+      }
       _ => {return None;}
     };
 
@@ -196,22 +199,24 @@ impl Parser{
     };
       
     return Some(cst::CstLiteralExpression::from(char_val));
-  
   }
 
   fn try_parse_string_literal(&mut self) -> Option<cst::CstLiteralExpression>{
     match self.tokens[self.position]{
-      lex::LexerToken::DoubleQuote => self.position = self.position+1,
+      lex::LexerToken::DoubleQuote => self.position += 1,
       _ => {return None;}
     };
 
     let string_val =  match &self.tokens[self.position]{
-      lex::LexerToken::String(string) => String::clone(string),
+      lex::LexerToken::String(string) => {
+        self.position += 1;
+        String::clone(string)
+      }
       _ => {return None;}
     };
 
     match self.tokens[self.position]{
-      lex::LexerToken::DoubleQuote => self.position = self.position+1,
+      lex::LexerToken::DoubleQuote => self.position += 1,
       _ => {return None;}
     };
       
@@ -219,11 +224,24 @@ impl Parser{
   }
 
   fn try_parse_int_literal(&mut self) -> Option<cst::CstLiteralExpression>{
-    return None;
+    // should we do parsing of 0x, 0b, 00 prefixes?
+    match self.tokens[self.position]{
+      lex::LexerToken::Integral(val) => {
+        self.position += 1;
+        return Some(cst::CstLiteralExpression::from(val));
+      },
+      _ => {return None;}
+    };
   }
 
   fn try_parse_float_literal(&mut self) -> Option<cst::CstLiteralExpression>{
-    return None;
+    match self.tokens[self.position]{
+      lex::LexerToken::Integral(val) => {
+        self.position += 1;
+        return Some(cst::CstLiteralExpression::from(val));
+      },
+      _ => {return None;}
+    };
   }
 
 }
