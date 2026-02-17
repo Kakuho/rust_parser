@@ -125,13 +125,42 @@ impl Parser{
       lex::LexerToken::LeftCurlyBrace => self.position = self.position+1,
       _ => panic!("damn bro")
     };
-    
-    
+        
+        
     match self.tokens[self.position]{
       lex::LexerToken::RightCurlyBrace => self.position = self.position+1,
       _ => panic!("damn bro")
     };
     return Some(cst::CstBlockExpression{});
+  }
+
+  pub fn parse_let_statement(&mut self) -> Option<cst::CstLetStatement>{
+    match self.tokens[self.position]{
+      lex::LexerToken::Let => self.position = self.position+1,
+      _ => panic!("damn bro")
+    };
+    
+    // skip pattern
+
+    // see if there's a type
+    let saved_pos = self.position;
+    match self.tokens[self.position]{
+      lex::LexerToken::Colon => self.position = self.position+1,
+      _ => panic!("damn bro")
+    };
+
+    let type_val = match &self.tokens[self.position]{
+      lex::LexerToken::Type(type_lexeme) => String::clone(type_lexeme)
+      _ => panic!("damn bro")
+    };
+
+    match self.tokens[self.position]{
+      lex::LexerToken::Equal => self.position = self.position+1,
+      _ => panic!("damn bro")
+    };
+
+    let expression = self.parse_expression();
+    return Some(cst::CstLetStatement{let_type: Some(type_val), expression: expression});
   }
 
   pub fn parse_expression(&mut self) -> Option<cst::CstExpression>{
