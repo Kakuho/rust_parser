@@ -18,6 +18,8 @@ pub enum LexerToken{
   String(String),
   Integral(i32),
   Float(f64),
+  // others
+  Type(String),
   // symbols
   SingleQuote,
   DoubleQuote,
