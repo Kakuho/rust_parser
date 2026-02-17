@@ -29,3 +29,10 @@ pub struct CstLiteralExpression{
   literal: LiteralExpressionVal
 }
 
+impl From<char> for CstLiteralExpression{
+  fn from(item: char) -> Self{
+    return CstLiteralExpression {
+      literal: LiteralExpressionVal::Char(item)
+    }
+  }
+}
