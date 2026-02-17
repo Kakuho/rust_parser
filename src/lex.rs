@@ -21,6 +21,9 @@ pub enum LexerToken{
   // symbols
   SingleQuote,
   DoubleQuote,
+  Colon,
+  Equal,
+  SemiColon,
   // braces
   LeftCurlyBrace,
   RightCurlyBrace,
