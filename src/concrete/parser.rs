@@ -154,25 +154,25 @@ impl Parser{
 
     let char_literal = self.try_parse_char_literal();
     match char_literal{
-      None => {}
+      None => {self.position = saved_pos;}
       Some(literal_exp) => {return Some(literal_exp);}
     };
     
     let string_literal = self.try_parse_string_literal();
     match string_literal{
-      None => {}
+      None => {self.position = saved_pos;}
       Some(literal_exp) => {return Some(literal_exp);}
     };
 
     let int_literal = self.try_parse_int_literal();
     match char_literal{
-      None => {}
+      None => {self.position = saved_pos;}
       Some(literal_exp) => {return Some(literal_exp);}
     };
 
     let float_literal = self.try_parse_float_literal();
     match char_literal{
-      None => {}
+      None => {self.position = saved_pos;}
       Some(literal_exp) => {return Some(literal_exp);}
     };
     
