@@ -21,7 +21,7 @@ pub struct CstExpression{
 enum LiteralExpressionVal{
   Char(char),
   String(String),
-  Integral(isize),
+  Integral(i32),
   Float(f64)
 }
 
@@ -33,6 +33,30 @@ impl From<char> for CstLiteralExpression{
   fn from(item: char) -> Self{
     return CstLiteralExpression {
       literal: LiteralExpressionVal::Char(item)
+    }
+  }
+}
+
+impl From<String> for CstLiteralExpression{
+  fn from(item: String) -> Self{
+    return CstLiteralExpression {
+      literal: LiteralExpressionVal::String(item)
+    }
+  }
+}
+
+impl From<i32> for CstLiteralExpression{
+  fn from(item: i32) -> Self{
+    return CstLiteralExpression {
+      literal: LiteralExpressionVal::Integral(item)
+    }
+  }
+}
+
+impl From<f64> for CstLiteralExpression{
+  fn from(item: f64) -> Self{
+    return CstLiteralExpression {
+      literal: LiteralExpressionVal::Float(item)
     }
   }
 }
