@@ -18,6 +18,9 @@ pub struct CstExpression{
   pub kind: ExpressionKind
 }
 
+///////////////////////////////////////////////////// literal expressions
+// its kinda annoying that i have to do a long /// in order to explicity say "here's a piece of code that implements XYZ"...
+
 enum LiteralExpressionVal{
   Char(char),
   String(String),
