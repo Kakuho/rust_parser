@@ -1,4 +1,4 @@
-use std::ops::Deref;
+use std::{collections::HashSet, ops::Deref};
 
 use crate::{concrete::cst::CstFunctionQualifier, lex};
 use super::cst;
@@ -134,7 +134,7 @@ impl Parser{
   }
 
   pub fn parse_expression(&mut self) -> Option<cst::CstExpression>{
-    let lexp = self.try_parse_literal_expression();
+    let lexp = self.parse_literal_expression();
     match lexp {
       None => {}
       Some(litexp) => {
@@ -148,11 +148,30 @@ impl Parser{
     return None;
   }
 
-  fn try_parse_literal_expression(&mut self) -> Option<cst::CstLiteralExpression>{
-    match &self.tokens[self.position]{
-      lex::LexerToken::LeftCurlyBrace => self.position = self.position+1,
-      _ => panic!("damn bro")
+  pub fn parse_literal_expression(&mut self) -> Option<cst::CstLiteralExpression>{
+    let saved_pos = self.position;
+    let char_literal = self.try_parse_char_literal();
+    match char_literal{
+      None => {}
+      Some(literal_exp) => {return Some(literal_exp);}
     };
+    return None;  
+  }
+
+  fn try_parse_char_literal(&mut self) -> Option<cst::CstLiteralExpression>{
     return None;
   }
+
+  fn try_parse_string_literal(&mut self) -> Option<cst::CstLiteralExpression>{
+    return None;
+  }
+
+  fn try_parse_int_literal(&mut self) -> Option<cst::CstLiteralExpression>{
+    return None;
+  }
+
+  fn try_parse_float_literal(&mut self) -> Option<cst::CstLiteralExpression>{
+    return None;
+  }
+
 }
