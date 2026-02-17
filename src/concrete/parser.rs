@@ -126,6 +126,7 @@ impl Parser{
       _ => panic!("damn bro")
     };
     
+    
     match self.tokens[self.position]{
       lex::LexerToken::RightCurlyBrace => self.position = self.position+1,
       _ => panic!("damn bro")
@@ -179,7 +180,22 @@ impl Parser{
   }
 
   fn try_parse_char_literal(&mut self) -> Option<cst::CstLiteralExpression>{
-    return None;
+    match self.tokens[self.position]{
+      lex::LexerToken::SingleQuote => self.position = self.position+1,
+      _ => {return None;}
+    };
+
+    let char_val =  match self.tokens[self.position]{
+      lex::LexerToken::Character(charval) => charval,
+      _ => {return None;}
+    };
+
+    match self.tokens[self.position]{
+      lex::LexerToken::SingleQuote => self.position = self.position+1,
+      _ => {return None;}
+    };
+      
+    return Some(cst::CstLiteralExpression::from(char_val));
   }
 
   fn try_parse_string_literal(&mut self) -> Option<cst::CstLiteralExpression>{
