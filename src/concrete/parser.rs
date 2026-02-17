@@ -196,10 +196,26 @@ impl Parser{
     };
       
     return Some(cst::CstLiteralExpression::from(char_val));
+  
   }
 
   fn try_parse_string_literal(&mut self) -> Option<cst::CstLiteralExpression>{
-    return None;
+    match self.tokens[self.position]{
+      lex::LexerToken::DoubleQuote => self.position = self.position+1,
+      _ => {return None;}
+    };
+
+    let string_val =  match &self.tokens[self.position]{
+      lex::LexerToken::String(string) => String::clone(string),
+      _ => {return None;}
+    };
+
+    match self.tokens[self.position]{
+      lex::LexerToken::DoubleQuote => self.position = self.position+1,
+      _ => {return None;}
+    };
+      
+    return Some(cst::CstLiteralExpression::from(string_val));
   }
 
   fn try_parse_int_literal(&mut self) -> Option<cst::CstLiteralExpression>{
