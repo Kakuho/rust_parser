@@ -45,8 +45,11 @@ pub struct CstLiteralExpression{
 impl CstLiteralExpression{
   pub fn Print(&self){
     println!("Literal Expression");
-    match self.literal{
-      _ => {}
+    match &self.literal{
+      LiteralExpressionKind::Char(val) => {println!("Char: {}", val);},
+      LiteralExpressionKind::String(val) => {println!("String: {}", val);},
+      LiteralExpressionKind::Integral(val) => {println!("Integral: {}", val);},
+      LiteralExpressionKind::Float(val) => {println!("Float: {}", val);},     
     }
   }
 }
