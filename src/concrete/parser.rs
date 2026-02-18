@@ -177,7 +177,10 @@ impl Parser{
     };
 
     let type_val = match &self.tokens[self.position]{
-      lex::LexerToken::Type(type_lexeme) => String::clone(type_lexeme),
+      lex::LexerToken::Type(type_lexeme) => {
+        self.position += 1;
+        String::clone(type_lexeme)
+      },
       _ => {return None;}
     };
 
