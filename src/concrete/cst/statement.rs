@@ -18,7 +18,7 @@ impl CstLetStatement{
     }
 
     match &self.expression{
-      Some(expression) => expression.Print()
+      Some(expression) => expression.Print(),
       None => println!("no expression provided"),
     }
   }
