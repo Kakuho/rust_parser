@@ -13,3 +13,8 @@ pub use expressions::CstLiteralExpression;
 
 mod statement;
 pub use statement::CstLetStatement;
+
+mod patterns;
+pub use patterns::PatternNoTopAltKind;
+pub use patterns::CstIdentifierPattern;
+
