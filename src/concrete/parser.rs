@@ -143,7 +143,7 @@ impl Parser{
 
     let pattern = self.parse_pattern_no_top_alt();
 
-    match pattern{
+    match &pattern{
       Some(pattern) => self.position = self.position+1,
       _ => panic!("damn bro")
     };
@@ -167,7 +167,7 @@ impl Parser{
 
     let expression = self.parse_expression();
 
-    return Some(cst::CstLetStatement{let_type: type_val, expression: expression});
+    return Some(cst::CstLetStatement{pattern: pattern, let_type: type_val, expression: expression});
   }
 
   pub fn try_parse_let_type(&mut self) -> Option<String>{
