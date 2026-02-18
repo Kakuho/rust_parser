@@ -17,6 +17,15 @@ impl From<CstPatternWithoutRange> for CstPatternNoTopAlt{
   }
 }
 
+impl CstPatternNoTopAlt{
+  pub fn Print(&self){
+    println!("CstPatternNoTopAlt");
+    match &self.kind{
+      PatternNoTopAltKind::PatternWithoutRange(node) => {node.Print();}
+    }
+  }
+}
+
 ////////////////////////////////////////////////////////
 
 enum PatternWithoutRangeKind{
@@ -34,6 +43,17 @@ impl From<CstIdentifierPattern> for CstPatternWithoutRange{
   }
 }
 
+impl CstPatternWithoutRange{
+  pub fn Print(&self){
+    println!("PatternWithoutRange");
+    match &self.kind{
+      PatternWithoutRangeKind::IdentifierPattern(node) => {node.Print();}
+      _ => {}
+    }
+  }
+}
+
+
 ////////////////////////////////////////////////////////
 
 pub struct CstIdentifierPattern{
@@ -49,6 +69,17 @@ impl CstIdentifierPattern{
       is_mutable: is_mutable,
       identifier: identifier
     }
+  }
+
+  pub fn Print(&self){
+    println!("Identifier Pattern");
+    if self.is_ref{
+      println!("Is Reference")
+    }
+    if self.is_mutable{
+      println!("Is Mutable")
+    }
+    println!("Identifier: {}", self.identifier);
   }
 }
 
