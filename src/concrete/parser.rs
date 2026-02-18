@@ -152,13 +152,17 @@ impl Parser{
     let saved_pos = self.position;
     let possible_type = self.try_parse_let_type();
 
-
     let type_val = if possible_type.is_none(){
       self.position = saved_pos; // backtracking
       None
     }
     else {
       possible_type
+    };
+
+    match self.tokens[self.position]{
+      lex::LexerToken::Equal => self.position = self.position+1,
+      _ => {return None;}
     };
 
     let expression = self.parse_expression();
@@ -174,11 +178,6 @@ impl Parser{
 
     let type_val = match &self.tokens[self.position]{
       lex::LexerToken::Type(type_lexeme) => String::clone(type_lexeme),
-      _ => {return None;}
-    };
-
-    match self.tokens[self.position]{
-      lex::LexerToken::Equal => self.position = self.position+1,
       _ => {return None;}
     };
 
@@ -216,13 +215,13 @@ impl Parser{
     };
 
     let int_literal = self.try_parse_int_literal();
-    match char_literal{
+    match int_literal{
       None => {self.position = saved_pos;}
       Some(literal_exp) => {return Some(literal_exp);}
     };
 
     let float_literal = self.try_parse_float_literal();
-    match char_literal{
+    match float_literal{
       None => {self.position = saved_pos;}
       Some(literal_exp) => {return Some(literal_exp);}
     };
