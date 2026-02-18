@@ -144,23 +144,37 @@ impl Parser{
 
     // see if there's a type
     let saved_pos = self.position;
+    let possible_type = self.try_parse_let_type();
+
+    let type_val = if possible_type.is_none(){
+      self.position = saved_pos; // backtracking
+      None
+    }
+    else {
+      possible_type
+    };
+
+    let expression = self.parse_expression();
+    return Some(cst::CstLetStatement{let_type: type_val, expression: expression});
+  }
+
+  pub fn try_parse_let_type(&mut self) -> Option<String>{
     match self.tokens[self.position]{
       lex::LexerToken::Colon => self.position = self.position+1,
-      _ => panic!("damn bro")
+      _ => {return None;}
     };
 
     let type_val = match &self.tokens[self.position]{
-      lex::LexerToken::Type(type_lexeme) => String::clone(type_lexeme)
-      _ => panic!("damn bro")
+      lex::LexerToken::Type(type_lexeme) => String::clone(type_lexeme),
+      _ => {return None;}
     };
 
     match self.tokens[self.position]{
       lex::LexerToken::Equal => self.position = self.position+1,
-      _ => panic!("damn bro")
+      _ => {return None;}
     };
 
-    let expression = self.parse_expression();
-    return Some(cst::CstLetStatement{let_type: Some(type_val), expression: expression});
+    return Some(type_val);
   }
 
   pub fn parse_expression(&mut self) -> Option<cst::CstExpression>{
