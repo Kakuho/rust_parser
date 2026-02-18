@@ -10,12 +10,22 @@ impl CstBlockExpression{
 }
 
 pub enum ExpressionKind{
-  LiteralExpression(CstLiteralExpression),
+  LiteralExpression(CstLiteralExpression)
 }
 
 pub struct CstExpression{
   // this maps to expression_without_block
   pub kind: ExpressionKind
+}
+
+impl CstExpression{
+  // yaya lala
+  pub fn Print(&self){
+    println!("Expression");
+    match &self.kind{
+      ExpressionKind::LiteralExpression(literal_expression) => {literal_expression.Print()},
+    };
+  }
 }
 
 ///////////////////////////////////////////////////// literal expressions
@@ -30,6 +40,15 @@ enum LiteralExpressionVal{
 
 pub struct CstLiteralExpression{
   literal: LiteralExpressionVal
+}
+
+impl CstLiteralExpression{
+  pub fn Print(&self){
+    println!("Literal Expression");
+    match self.literal{
+      _ => {}
+    }
+  }
 }
 
 impl From<char> for CstLiteralExpression{
