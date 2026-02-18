@@ -31,7 +31,7 @@ impl CstExpression{
 ///////////////////////////////////////////////////// literal expressions
 // its kinda annoying that i have to do a long /// in order to explicity say "here's a piece of code that implements XYZ"...
 
-enum LiteralExpressionVal{
+enum LiteralExpressionKind{
   Char(char),
   String(String),
   Integral(i32),
@@ -39,7 +39,7 @@ enum LiteralExpressionVal{
 }
 
 pub struct CstLiteralExpression{
-  literal: LiteralExpressionVal
+  literal: LiteralExpressionKind
 }
 
 impl CstLiteralExpression{
@@ -54,7 +54,7 @@ impl CstLiteralExpression{
 impl From<char> for CstLiteralExpression{
   fn from(item: char) -> Self{
     return CstLiteralExpression {
-      literal: LiteralExpressionVal::Char(item)
+      literal: LiteralExpressionKind::Char(item)
     }
   }
 }
@@ -62,7 +62,7 @@ impl From<char> for CstLiteralExpression{
 impl From<String> for CstLiteralExpression{
   fn from(item: String) -> Self{
     return CstLiteralExpression {
-      literal: LiteralExpressionVal::String(item)
+      literal: LiteralExpressionKind::String(item)
     }
   }
 }
@@ -70,7 +70,7 @@ impl From<String> for CstLiteralExpression{
 impl From<i32> for CstLiteralExpression{
   fn from(item: i32) -> Self{
     return CstLiteralExpression {
-      literal: LiteralExpressionVal::Integral(item)
+      literal: LiteralExpressionKind::Integral(item)
     }
   }
 }
@@ -78,7 +78,7 @@ impl From<i32> for CstLiteralExpression{
 impl From<f64> for CstLiteralExpression{
   fn from(item: f64) -> Self{
     return CstLiteralExpression {
-      literal: LiteralExpressionVal::Float(item)
+      literal: LiteralExpressionKind::Float(item)
     }
   }
 }
