@@ -69,15 +69,19 @@ fn ParseStatements(){
   //   let mut j: i8 = 10;
   //   let mut j: f16 = 10;
   let sample_tokens: Vec<lex::LexerToken> = vec![
-    lex::LexerToken::LeftCurlyBrace,
-    lex::LexerToken::RightCurlyBrace
+    //   let k = 10;
+    lex::LexerToken::Let,
+    lex::LexerToken::Identifier(String::from("k")),
+    lex::LexerToken::Equal,
+    lex::LexerToken::Integral(10),
+    lex::LexerToken::SemiColon,
+    //   let mut j = 10;
   ];
 
   let mut parser = concrete::Parser::create(sample_tokens);
 
-  let blockCst: Option<concrete::cst::CstBlockExpression> = parser.parse_block_expression();
-  match blockCst{
-    None => {},
+  let let_statement: Option<concrete::cst::CstLetStatement> = parser.parse_let_statement();
+  match let_statement{ None => {},
     Some(node) => {node.Print()}
   };
 }
@@ -88,6 +92,6 @@ fn main(){
       fn main(){}
     ")
   };
-  ParseMainFunction();
+  ParseStatements();
   println!("~Mero mero");
 }

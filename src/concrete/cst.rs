@@ -16,5 +16,8 @@ pub use statement::CstLetStatement;
 
 mod patterns;
 pub use patterns::PatternNoTopAltKind;
+pub use patterns::CstPatternNoTopAlt;
 pub use patterns::CstIdentifierPattern;
+pub use patterns::CstPatternWithoutRange;
+
 

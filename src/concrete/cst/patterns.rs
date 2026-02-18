@@ -6,17 +6,35 @@ pub enum PatternNoTopAltKind{
 }
 
 pub struct CstPatternNoTopAlt{
-  kind: PatternWithoutRangeKind
+  kind: PatternNoTopAltKind
 }
+
+impl From<CstPatternWithoutRange> for CstPatternNoTopAlt{
+  fn from(node: CstPatternWithoutRange) -> Self{
+    CstPatternNoTopAlt{
+      kind: PatternNoTopAltKind::PatternWithoutRange(node)
+    }
+  }
+}
+
+////////////////////////////////////////////////////////
 
 enum PatternWithoutRangeKind{
   LiteralPattern(expressions::CstLiteralExpression),
-  IdentifierPattern(String)
+  IdentifierPattern(CstIdentifierPattern)
 }
 
 pub struct CstPatternWithoutRange{
   kind: PatternWithoutRangeKind
 }
+
+impl From<CstIdentifierPattern> for CstPatternWithoutRange{
+  fn from(node: CstIdentifierPattern) -> Self{
+    CstPatternWithoutRange{ kind: PatternWithoutRangeKind::IdentifierPattern(node)}
+  }
+}
+
+////////////////////////////////////////////////////////
 
 pub struct CstIdentifierPattern{
   is_ref: bool,

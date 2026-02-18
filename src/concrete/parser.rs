@@ -1,6 +1,7 @@
 use std::{collections::HashSet, ops::Deref};
 
-use crate::{concrete::cst::CstFunctionQualifier, lex};
+use crate::concrete::cst::{CstFunctionQualifier, PatternNoTopAltKind};
+use crate::lex;
 use super::cst;
 
 pub struct Parser{
@@ -139,12 +140,18 @@ impl Parser{
       lex::LexerToken::Let => self.position = self.position+1,
       _ => panic!("damn bro")
     };
-    
-    // skip pattern
+
+    let pattern = self.parse_pattern_no_top_alt();
+
+    match pattern{
+      Some(pattern) => self.position = self.position+1,
+      _ => panic!("damn bro")
+    };
 
     // see if there's a type
     let saved_pos = self.position;
     let possible_type = self.try_parse_let_type();
+
 
     let type_val = if possible_type.is_none(){
       self.position = saved_pos; // backtracking
@@ -155,6 +162,7 @@ impl Parser{
     };
 
     let expression = self.parse_expression();
+
     return Some(cst::CstLetStatement{let_type: type_val, expression: expression});
   }
 
@@ -285,6 +293,46 @@ impl Parser{
       },
       _ => {return None;}
     };
+  }
+
+  pub fn parse_pattern_no_top_alt(&mut self) -> Option<cst::CstPatternNoTopAlt>{
+    // for now it only expects a pattern_without_range
+    let pattern = self.try_parse_pattern_without_range();
+    if(pattern.is_none()){
+      panic!("Failure in parse_pattern_no_top_alt_kind: the expected pattern_without_range is null");
+    }
+    return Some(cst::CstPatternNoTopAlt::from(pattern.unwrap()));
+  }
+
+  fn try_parse_pattern_without_range(&mut self) -> Option<cst::CstPatternWithoutRange>{
+    let savedpos = self.position;
+    let identifier_pattern = self.try_parse_identifier_pattern();
+    if(identifier_pattern.is_none()){
+      self.position = savedpos;
+    }
+    else{
+      return Some(cst::CstPatternWithoutRange::from(identifier_pattern.unwrap()));
+    }
+    return None;
+  }
+
+  fn try_parse_identifier_pattern(&mut self) -> Option<cst::CstIdentifierPattern>{
+    let is_ref = match self.tokens[self.position]{
+      lex::LexerToken::Ref => { self.position += 1; true},
+      _ => {false}
+    };
+
+    let is_mut = match self.tokens[self.position]{
+      lex::LexerToken::Mut => { self.position += 1; true},
+      _ => {false}
+    };
+
+    let identifier = match &self.tokens[self.position]{
+      lex::LexerToken::Identifier(identifier) => { String::clone(&identifier)},
+      _ => {return None;}
+    };
+
+    Some(cst::CstIdentifierPattern::create(is_ref, is_mut, identifier))
   }
 
 }

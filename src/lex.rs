@@ -13,6 +13,8 @@ pub enum LexerToken{
   Extern,
   Let,
   Abi(String),
+  Ref,
+  Mut,
   // literals
   Character(char),
   String(String),
