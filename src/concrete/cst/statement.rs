@@ -1,6 +1,61 @@
 use super::expressions;
 use super::patterns;
 
+pub struct CstStatements{
+  // actually needs a collection this time hehe
+  statements: Vec<CstStatement>
+}
+
+impl CstStatements{
+  pub fn make_empty() -> Self{
+    CstStatements{statements: Vec::new()}
+  }
+
+  pub fn add_statement(&mut self, stmt: CstStatement){
+    self.statements.push(stmt);
+  }
+
+  pub fn len(&self) -> usize{
+    self.statements.len()
+  }
+
+  pub fn print(&self){
+    println!("Statements");
+    for statement in &self.statements{
+      statement.print();
+    }
+  }
+}
+
+pub enum StatementKind{
+  LetStatement(CstLetStatement)
+}
+
+impl StatementKind{
+  pub fn print(&self){
+    match &self{
+      StatementKind::LetStatement(stmt) => {stmt.Print();}
+    }
+  }
+}
+
+pub struct CstStatement{
+  kind: StatementKind
+}
+
+impl CstStatement{
+  pub fn print(&self){
+    println!("Statement");
+    self.kind.print();
+  }
+}
+
+impl From<CstLetStatement> for CstStatement{
+  fn from(node: CstLetStatement) -> Self{
+    return CstStatement{kind: StatementKind::LetStatement(node)};
+  }
+}
+
 pub struct CstLetStatement{
   // handle outer attributes later
   // handle PatternNoTopAlt later

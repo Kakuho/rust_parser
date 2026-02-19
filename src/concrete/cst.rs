@@ -4,7 +4,6 @@ pub use top_level::CstItem;
 pub use top_level::CstFunction;
 pub use top_level::CstFunctionQualifier;
 
-
 mod expressions;
 pub use expressions::CstBlockExpression;
 pub use expressions::CstExpression;
@@ -12,6 +11,9 @@ pub use expressions::ExpressionKind;
 pub use expressions::CstLiteralExpression;
 
 mod statement;
+pub use statement::CstStatements;
+pub use statement::CstStatement;
+pub use statement::StatementKind;
 pub use statement::CstLetStatement;
 
 mod patterns;

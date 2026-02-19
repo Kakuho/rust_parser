@@ -135,6 +135,33 @@ impl Parser{
     return Some(cst::CstBlockExpression{});
   }
 
+  pub fn parse_statements(&mut self) -> Option<cst::CstStatements>{
+    let mut cstStatements = cst::CstStatements::make_empty();
+    let mut statement = self.parse_statement();
+    while(!statement.is_none()){
+      cstStatements.add_statement(statement.unwrap());
+      statement = self.parse_statement();
+    }
+    if(cstStatements.len() == 0){
+      return None;
+    }
+    else{
+      return Some(cstStatements);
+    }
+  }
+
+  pub fn parse_statement(&mut self) -> Option<cst::CstStatement>{
+    // for now it only tries to parse let statements,
+    // will add other types of statements later
+    let saved_pos = self.position; // for back tracking later 
+    let let_statement = self.parse_let_statement();
+    match let_statement{
+      Some(let_statement) => {return Some(cst::CstStatement::from(let_statement)); },
+      None => {}
+    }
+    None
+  }
+
   pub fn parse_let_statement(&mut self) -> Option<cst::CstLetStatement>{
     match self.tokens[self.position]{
       lex::LexerToken::Let => self.position = self.position+1,

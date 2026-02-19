@@ -62,20 +62,39 @@ fn ParseBlockExpression(){
   };
 }
 
-fn ParseStatements(){
+fn ParseStatements_0(){
   // statements we wana parse for now:
   //   let k = 10;
   //   let mut j = 10;
-  //   let mut j: i8 = 10;
-  //   let mut j: f16 = 10;
+  //   let mut l: i8 = 10;
+  //   let mut m: f16 = 10;
   let sample_tokens: Vec<lex::LexerToken> = vec![
-    //   let k = 10;
+    /*
+    // let k = 10;
     lex::LexerToken::Let,
     lex::LexerToken::Identifier(String::from("k")),
     lex::LexerToken::Equal,
     lex::LexerToken::Integral(10),
     lex::LexerToken::SemiColon,
-    //   let mut j = 10;
+    */
+    // let mut j = 10;
+    /*
+    lex::LexerToken::Let,
+    lex::LexerToken::Mut,
+    lex::LexerToken::Identifier(String::from("j")),
+    lex::LexerToken::Equal,
+    lex::LexerToken::Integral(10),
+    lex::LexerToken::SemiColon,
+    */
+    // let mut l: i8 = 10;
+    lex::LexerToken::Let,
+    lex::LexerToken::Mut,
+    lex::LexerToken::Identifier(String::from("j")),
+    lex::LexerToken::Colon,
+    lex::LexerToken::Type(String::from("i8")),
+    lex::LexerToken::Equal,
+    lex::LexerToken::Integral(10),
+    lex::LexerToken::SemiColon,
   ];
 
   let mut parser = concrete::Parser::create(sample_tokens);
@@ -86,12 +105,52 @@ fn ParseStatements(){
   };
 }
 
+fn ParseStatements_1(){
+  // statements we wana parse for now:
+  //   let k = 10;
+  //   let mut j = 10;
+  //   let mut l: i8 = 10;
+  //   let mut m: f16 = 10;
+  let sample_tokens: Vec<lex::LexerToken> = vec![
+    // let k = 10;
+    lex::LexerToken::Let,
+    lex::LexerToken::Identifier(String::from("k")),
+    lex::LexerToken::Equal,
+    lex::LexerToken::Integral(10),
+    lex::LexerToken::SemiColon,
+    // let mut j = 10;
+    lex::LexerToken::Let,
+    lex::LexerToken::Mut,
+    lex::LexerToken::Identifier(String::from("j")),
+    lex::LexerToken::Equal,
+    lex::LexerToken::Integral(10),
+    lex::LexerToken::SemiColon,
+    // let mut l: i8 = 10;
+    lex::LexerToken::Let,
+    lex::LexerToken::Mut,
+    lex::LexerToken::Identifier(String::from("j")),
+    lex::LexerToken::Colon,
+    lex::LexerToken::Type(String::from("i8")),
+    lex::LexerToken::Equal,
+    lex::LexerToken::Integral(10),
+    lex::LexerToken::SemiColon,
+  ];
+
+  let mut parser = concrete::Parser::create(sample_tokens);
+
+  let statement_list: Option<concrete::cst::CstStatements> = parser.parse_statements();
+  match statement_list{
+    None => {},
+    Some(node) => {node.print()}
+  };
+}
+
 fn main(){
   let program = Program{
     buffer: String::from("
       fn main(){}
     ")
   };
-  ParseStatements();
+  ParseStatements_1();
   println!("~Mero mero");
 }
