@@ -28,7 +28,7 @@ struct Program{
 //             Statements - null
 //
 
-fn ParseMainFunction(){
+fn parse_main_function(){
   let main_func_tokens: Vec<lex::LexerToken> = vec![
     lex::LexerToken::Fn,
     lex::LexerToken::Identifier(String::from("main")),
@@ -43,11 +43,11 @@ fn ParseMainFunction(){
   let function_cst = parser.parse_function();
   match function_cst{
     None => {},
-    Some(node) => {node.Print()}
+    Some(node) => {node.print()}
   };
 }
 
-fn ParseBlockExpression(){
+fn parse_block_expression(){
   let sample_tokens: Vec<lex::LexerToken> = vec![
     lex::LexerToken::LeftCurlyBrace,
     lex::LexerToken::RightCurlyBrace
@@ -55,14 +55,14 @@ fn ParseBlockExpression(){
 
   let mut parser = concrete::Parser::create(sample_tokens);
 
-  let blockCst: Option<concrete::cst::CstBlockExpression> = parser.parse_block_expression();
-  match blockCst{
+  let block_cst: Option<concrete::cst::CstBlockExpression> = parser.parse_block_expression();
+  match block_cst{
     None => {},
-    Some(node) => {node.Print()}
+    Some(node) => {node.print()}
   };
 }
 
-fn ParseStatements_0(){
+fn parse_statements_0(){
   // statements we wana parse for now:
   //   let k = 10;
   //   let mut j = 10;
@@ -101,11 +101,11 @@ fn ParseStatements_0(){
 
   let let_statement: Option<concrete::cst::CstLetStatement> = parser.parse_let_statement();
   match let_statement{ None => {},
-    Some(node) => {node.Print()}
+    Some(node) => {node.print()}
   };
 }
 
-fn ParseStatements_1(){
+fn parse_statements_1(){
   // statements we wana parse for now:
   //   let k = 10;
   //   let mut j = 10;
@@ -151,6 +151,6 @@ fn main(){
       fn main(){}
     ")
   };
-  ParseStatements_1();
+  parse_statements_1();
   println!("~Mero mero");
 }

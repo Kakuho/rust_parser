@@ -18,10 +18,10 @@ impl From<CstPatternWithoutRange> for CstPatternNoTopAlt{
 }
 
 impl CstPatternNoTopAlt{
-  pub fn Print(&self){
+  pub fn print(&self){
     println!("CstPatternNoTopAlt");
     match &self.kind{
-      PatternNoTopAltKind::PatternWithoutRange(node) => {node.Print();}
+      PatternNoTopAltKind::PatternWithoutRange(node) => {node.print();}
     }
   }
 }
@@ -44,10 +44,10 @@ impl From<CstIdentifierPattern> for CstPatternWithoutRange{
 }
 
 impl CstPatternWithoutRange{
-  pub fn Print(&self){
+  pub fn print(&self){
     println!("PatternWithoutRange");
     match &self.kind{
-      PatternWithoutRangeKind::IdentifierPattern(node) => {node.Print();}
+      PatternWithoutRangeKind::IdentifierPattern(node) => {node.print();}
       _ => {}
     }
   }
@@ -71,7 +71,7 @@ impl CstIdentifierPattern{
     }
   }
 
-  pub fn Print(&self){
+  pub fn print(&self){
     println!("Identifier Pattern");
     if self.is_ref{
       println!("Is Reference")

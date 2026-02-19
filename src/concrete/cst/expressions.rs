@@ -4,7 +4,7 @@ pub struct CstBlockExpression{
 }
 
 impl CstBlockExpression{
-  pub fn Print(&self){
+  pub fn print(&self){
     println!("Block Expression");
   }
 }
@@ -20,10 +20,10 @@ pub struct CstExpression{
 
 impl CstExpression{
   // yaya lala
-  pub fn Print(&self){
+  pub fn print(&self){
     println!("Expression");
     match &self.kind{
-      ExpressionKind::LiteralExpression(literal_expression) => {literal_expression.Print()},
+      ExpressionKind::LiteralExpression(literal_expression) => {literal_expression.print()},
     };
   }
 }
@@ -43,7 +43,7 @@ pub struct CstLiteralExpression{
 }
 
 impl CstLiteralExpression{
-  pub fn Print(&self){
+  pub fn print(&self){
     println!("Literal Expression");
     match &self.literal{
       LiteralExpressionKind::Char(val) => {println!("Char: {}", val);},

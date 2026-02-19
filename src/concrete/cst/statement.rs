@@ -34,7 +34,7 @@ pub enum StatementKind{
 impl StatementKind{
   pub fn print(&self){
     match &self{
-      StatementKind::LetStatement(stmt) => {stmt.Print();}
+      StatementKind::LetStatement(stmt) => {stmt.print();}
     }
   }
 }
@@ -65,7 +65,7 @@ pub struct CstLetStatement{
 }
 
 impl CstLetStatement{
-  pub fn Print(&self){
+  pub fn print(&self){
     println!("Let Statement");
 
     print!("let Type: ");
@@ -76,12 +76,12 @@ impl CstLetStatement{
     }
 
     match &self.pattern{
-      Some(pattern) => pattern.Print(),
+      Some(pattern) => pattern.print(),
       None => println!("no pattern provided"),
     }
 
     match &self.expression{
-      Some(expression) => expression.Print(),
+      Some(expression) => expression.print(),
       None => println!("no expression provided"),
     
     }

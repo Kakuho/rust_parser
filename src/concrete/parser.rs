@@ -1,6 +1,3 @@
-use std::{collections::HashSet, ops::Deref};
-
-use crate::concrete::cst::{CstFunctionQualifier, PatternNoTopAltKind};
 use crate::lex;
 use super::cst;
 
@@ -68,7 +65,7 @@ impl Parser{
     let block_expression = self.parse_block_expression();    
 
     return Some(
-      cst::CstFunction::Create(qualifiers, identifier, block_expression)
+      cst::CstFunction::create(qualifiers, identifier, block_expression)
     )
   }
 
@@ -136,17 +133,17 @@ impl Parser{
   }
 
   pub fn parse_statements(&mut self) -> Option<cst::CstStatements>{
-    let mut cstStatements = cst::CstStatements::make_empty();
+    let mut cst_statements = cst::CstStatements::make_empty();
     let mut statement = self.parse_statement();
-    while(!statement.is_none()){
-      cstStatements.add_statement(statement.unwrap());
+    while !statement.is_none(){
+      cst_statements.add_statement(statement.unwrap());
       statement = self.parse_statement();
     }
-    if(cstStatements.len() == 0){
+    if cst_statements.len() == 0 {
       return None;
     }
     else{
-      return Some(cstStatements);
+      return Some(cst_statements);
     }
   }
 
@@ -327,7 +324,7 @@ impl Parser{
   pub fn parse_pattern_no_top_alt(&mut self) -> Option<cst::CstPatternNoTopAlt>{
     // for now it only expects a pattern_without_range
     let pattern = self.try_parse_pattern_without_range();
-    if(pattern.is_none()){
+    if pattern.is_none() {
       panic!("Failure in parse_pattern_no_top_alt_kind: the expected pattern_without_range is null");
     }
     return Some(cst::CstPatternNoTopAlt::from(pattern.unwrap()));
@@ -336,7 +333,7 @@ impl Parser{
   fn try_parse_pattern_without_range(&mut self) -> Option<cst::CstPatternWithoutRange>{
     let savedpos = self.position;
     let identifier_pattern = self.try_parse_identifier_pattern();
-    if(identifier_pattern.is_none()){
+    if identifier_pattern.is_none() {
       self.position = savedpos;
     }
     else{

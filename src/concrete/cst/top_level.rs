@@ -37,7 +37,7 @@ pub struct CstFunctionQualifier{
 }
 
 impl CstFunction{
-  pub fn Create(qualifier: Option<CstFunctionQualifier>, identifier: String, block_expression: Option<expressions::CstBlockExpression>) -> CstFunction{
+  pub fn create(qualifier: Option<CstFunctionQualifier>, identifier: String, block_expression: Option<expressions::CstBlockExpression>) -> CstFunction{
     CstFunction{
       qualifier: qualifier,
       identifier: identifier,
@@ -45,21 +45,21 @@ impl CstFunction{
     }
   }
 
-  pub fn Print(&self){
+  pub fn print(&self){
     println!("Function");
 
     println!("Qualifiers:");
     match &self.qualifier{
       Some(qualifiers) => {
-        if(qualifiers.is_const){
+        if qualifiers.is_const{
           println!("Const");
         }
 
-        if(qualifiers.is_async){
+        if qualifiers.is_async {
           println!("Async");
         }
 
-        if(qualifiers.is_unsafe){
+        if qualifiers.is_unsafe {
           println!("Unsafe");
         }
         else{
@@ -73,7 +73,7 @@ impl CstFunction{
 
     match &self.block_expression{
       Some(blocknode) => {
-        blocknode.Print();
+        blocknode.print();
       }
       None => {}
     }
