@@ -150,6 +150,9 @@ impl Parser{
   pub fn parse_statement(&mut self) -> Option<cst::CstStatement>{
     // for now it only tries to parse let statements,
     // will add other types of statements later
+    if(self.position >= self.tokens.len()){
+      return None;
+    }
     let saved_pos = self.position; // for back tracking later 
     let let_statement = self.parse_let_statement();
     match let_statement{
@@ -162,14 +165,14 @@ impl Parser{
   pub fn parse_let_statement(&mut self) -> Option<cst::CstLetStatement>{
     match self.tokens[self.position]{
       lex::LexerToken::Let => self.position = self.position+1,
-      _ => panic!("damn bro")
+      _ => {return None;}
     };
 
     let pattern = self.parse_pattern_no_top_alt();
 
     match &pattern{
       Some(pattern) => self.position = self.position+1,
-      _ => panic!("damn bro")
+      _ => {return None;}
     };
 
     // see if there's a type
@@ -190,6 +193,11 @@ impl Parser{
     };
 
     let expression = self.parse_expression();
+
+    match self.tokens[self.position]{
+      lex::LexerToken::SemiColon => self.position = self.position+1,
+      _ => {return None;}
+    };
 
     return Some(cst::CstLetStatement{pattern: pattern, let_type: type_val, expression: expression});
   }

@@ -128,7 +128,7 @@ fn parse_statements_1(){
     // let mut l: i8 = 10;
     lex::LexerToken::Let,
     lex::LexerToken::Mut,
-    lex::LexerToken::Identifier(String::from("j")),
+    lex::LexerToken::Identifier(String::from("l")),
     lex::LexerToken::Colon,
     lex::LexerToken::Type(String::from("i8")),
     lex::LexerToken::Equal,
