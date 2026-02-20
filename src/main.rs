@@ -101,7 +101,7 @@ fn parse_statements_0(){
 
   let let_statement: Option<concrete::cst::CstLetStatement> = parser.parse_let_statement();
   match let_statement{ None => {},
-    Some(node) => {node.print()}
+    Some(node) => {node.print_as_root()}
   };
 }
 
@@ -151,6 +151,6 @@ fn main(){
       fn main(){}
     ")
   };
-  parse_statements_1();
+  parse_statements_0();
   println!("~Mero mero");
 }

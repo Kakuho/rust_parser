@@ -86,4 +86,69 @@ impl CstLetStatement{
     
     }
   }
+
+  pub fn print_as_root(&self){
+    println!("Let Statement");
+
+    print!("let Type: ");
+
+    match &self.let_type{
+      None => println!("no type annotation provided"),
+      Some(let_type) => println!("type: {}", &let_type)
+    }
+
+    match &self.pattern{
+      Some(pattern) => pattern.print(),
+      None => println!("no pattern provided"),
+    }
+
+    match &self.expression{
+      Some(expression) => expression.print(),
+      None => println!("no expression provided"),
+    
+    }
+  }
+
+  pub fn print_as_child(&self, level: u8){
+    for i in (0.. level){
+      print!("\t");
+    }
+
+    println!("Let Statement");
+
+    for i in (0.. level){
+      print!("\t");
+    }
+
+    print!("let Type: ");
+
+
+    for i in (0.. level){
+      print!("\t");
+    }
+
+    match &self.let_type{
+      None => println!("no type annotation provided"),
+      Some(let_type) => println!("type: {}", &let_type)
+    }
+
+    for i in (0.. level){
+      print!("\t");
+    }
+
+    match &self.pattern{
+      Some(pattern) => pattern.print(),
+      None => println!("no pattern provided"),
+    }
+
+    for i in (0.. level){
+      print!("\t");
+    }
+
+    match &self.expression{
+      Some(expression) => expression.print(),
+      None => println!("no expression provided"),
+    
+    }
+  }
 }
